@@ -13,6 +13,55 @@ import java.util.*;
 /** Provides static save/load methods of SimpleConfig instances. */
 public class SimpleConfigIO {
 
+    public static String formatValue(Object value) {
+
+        if (value instanceof String s) {
+            return "\"" + s.replace("\"", "\\\"") + "\"";
+        }
+
+        if (value instanceof List<?> list) {
+            List<String> formatted = new ArrayList<>();
+            for (Object item : list) {
+                formatted.add(formatValue(item));
+            }
+            return "[" + String.join(", ", formatted) + "]";
+        }
+
+        return value.toString();
+    }
+
+    public static void save(@NotNull SimpleConfig config, Path path) {
+        try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
+            Map<String, List<String>> sectioned = new TreeMap<>();
+
+            for (String key : config.keys()) {
+                String[] parts = key.split("\\.");
+                String section = parts.length > 1 ? String.join(".", Arrays.copyOf(parts, parts.length - 1)) : "";
+                String entry = parts[parts.length - 1] + " = " + formatValue(config.get(key));
+
+                sectioned.computeIfAbsent(section, k -> new ArrayList<>()).add(entry);
+            }
+
+            for (Map.Entry<String, List<String>> entry : sectioned.entrySet()) {
+                if (!entry.getKey().isEmpty()) {
+                    writer.write("[" + entry.getKey() + "]");
+                    writer.newLine();
+                }
+
+                for (String line : entry.getValue()) {
+                    writer.write(line);
+                    writer.newLine();
+                    if (!line.startsWith("#")) writer.newLine();
+                }
+
+                writer.newLine();
+            }
+        }
+        catch (IOException e) {
+            throw new UncheckedIOException("Failed to save config to " + path, e);
+        }
+    }
+
     private static List<String> splitRespectingQuotes(String raw) {
         List<String> result = new ArrayList<>();
         boolean inQuotes = false;
@@ -104,53 +153,5 @@ public class SimpleConfigIO {
         }
 
         return config;
-    }
-
-    public static String formatValue(Object value) {
-
-        if (value instanceof String s) {
-            return "\"" + s.replace("\"", "\\\"") + "\"";
-        }
-
-        if (value instanceof List<?> list) {
-            List<String> formatted = new ArrayList<>();
-            for (Object item : list) {
-                formatted.add(formatValue(item));
-            }
-            return "[" + String.join(", ", formatted) + "]";
-        }
-
-        return value.toString();
-    }
-
-    public static void save(@NotNull SimpleConfig config, Path path) {
-        try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
-            Map<String, List<String>> sectioned = new TreeMap<>();
-
-            for (String key : config.keys()) {
-                String[] parts = key.split("\\.");
-                String section = parts.length > 1 ? String.join(".", Arrays.copyOf(parts, parts.length - 1)) : "";
-                String entry = parts[parts.length - 1] + " = " + formatValue(config.get(key));
-
-                sectioned.computeIfAbsent(section, k -> new ArrayList<>()).add(entry);
-            }
-
-            for (Map.Entry<String, List<String>> entry : sectioned.entrySet()) {
-                if (!entry.getKey().isEmpty()) {
-                    writer.write("[" + entry.getKey() + "]");
-                    writer.newLine();
-                }
-
-                for (String line : entry.getValue()) {
-                    writer.write(line);
-                    writer.newLine();
-                    if (!line.startsWith("#")) writer.newLine();
-                }
-
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            throw new UncheckedIOException("Failed to save config to " + path, e);
-        }
     }
 }

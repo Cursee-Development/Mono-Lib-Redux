@@ -1,5 +1,7 @@
 package com.cursee.monolib.core.sailing.warden;
 
+import com.cursee.monolib.Constants;
+
 import java.io.File;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
@@ -24,6 +26,13 @@ public class SailingWarden {
             }
             catch (InvalidPathException e) {
                 throw new IllegalArgumentException("Invalid path specified. '" + filepath + "'");
+            }
+        }
+
+        if (!SailingWarden.UNSAFE_PATH_TO_UNSAFE_HOST_MAP.isEmpty()) {
+            Constants.LOG.info("Unsafe download(s):");
+            for (String key : SailingWarden.UNSAFE_PATH_TO_UNSAFE_HOST_MAP.keySet()) {
+                Constants.LOG.info("- {} from {}", key, SailingWarden.UNSAFE_PATH_TO_UNSAFE_HOST_MAP.get(key));
             }
         }
     }

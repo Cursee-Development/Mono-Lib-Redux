@@ -4,7 +4,10 @@
     "package": "com.cursee.monolib.mixin",
     "refmap": "${mod_id}.refmap.json",
     "compatibilityLevel": "JAVA_17",
-    "mixins": [],
+    "mixins": [
+        "FabricAnvilBlockMixin",
+        "FabricAnvilMenuMixin"
+    ],
     "client": [],
     "server": [],
     "injectors": {

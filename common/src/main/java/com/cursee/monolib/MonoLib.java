@@ -12,8 +12,8 @@ public class MonoLib {
 
     public static void init() {
         SailingWarden.processDirectoryOrFilePathStrings(Services.PLATFORM.getGameDirectory() + File.separator + "mods");
-        CommonConfigHandler.onLoad();
         Sailing.register(Constants.MOD_ID, Constants.MOD_NAME, Constants.MOD_VERSION, Constants.MOD_PUBLISHER, Constants.MOD_URL);
+        CommonConfigHandler.onLoad();
     }
 
     public static ResourceLocation identifier(String path) {

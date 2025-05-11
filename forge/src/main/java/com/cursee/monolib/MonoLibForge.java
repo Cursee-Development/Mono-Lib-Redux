@@ -55,10 +55,6 @@ public class MonoLibForge {
         MinecraftForge.EVENT_BUS.addListener((Consumer<RegisterCommandsEvent>) event -> {
             MonoLibCommands.defineCommands(event.getDispatcher(), event.getBuildContext(), event.getCommandSelection());
         });
-
-        MinecraftForge.EVENT_BUS.addListener((Consumer<AnvilRepairEvent>) event -> {
-            if (event.getOutput().is(ModItems.DEBUG_ITEM)) event.setBreakChance(1.0f); // always damage anvil when modifying debug_item
-        });
     }
 
     @SuppressWarnings("removal")

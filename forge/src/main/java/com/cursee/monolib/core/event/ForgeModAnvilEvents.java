@@ -2,24 +2,20 @@ package com.cursee.monolib.core.event;
 
 import com.cursee.monolib.MonoLibForge;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.AnvilBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.event.level.PistonEvent;
-import net.minecraftforge.eventbus.api.Cancelable;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fml.event.IModBusEvent;
 
 public class ForgeModAnvilEvents {
 
     public static class Hooks {
-        public static boolean onLand(AnvilBlock anvilBlock, Level level, BlockPos pos, BlockState blockState, BlockState replaceable, FallingBlockEntity fallingBlock) {
-            return MonoLibForge.EVENT_BUS.post(new AnvilOnLandEvent(anvilBlock, level, pos, blockState, replaceable, fallingBlock));
+
+        public static void onLand(AnvilBlock anvilBlock, Level level, BlockPos pos, BlockState blockState, BlockState replaceable, FallingBlockEntity fallingBlock) {
+            MonoLibForge.EVENT_BUS.post(new AnvilOnLandEvent(anvilBlock, level, pos, blockState, replaceable, fallingBlock));
         }
 
         public static void onBrokenAfterFall(AnvilBlock anvilBlock, Level level, BlockPos pos, FallingBlockEntity fallingBlock) {
@@ -27,7 +23,6 @@ public class ForgeModAnvilEvents {
         }
     }
 
-    @Cancelable
     public static class AnvilOnLandEvent extends BlockEvent implements IModBusEvent {
 
         private final AnvilBlock anvilBlock;
@@ -54,7 +49,6 @@ public class ForgeModAnvilEvents {
         }
     }
 
-    @Cancelable
     public static class AnvilOnBrokenAfterFallEvent extends BlockEvent implements IModBusEvent {
 
         private final AnvilBlock anvilBlock;

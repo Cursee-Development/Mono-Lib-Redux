@@ -12,12 +12,7 @@ import net.minecraft.world.level.block.AnvilBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import oshi.util.tuples.Triplet;
 
-import java.util.Optional;
-
-/**
- * These events occur on the server and client simultaneously,
- * which should be handled via {@link Level#isClientSide()} checks to the player's level if needed.
- */
+/** These events occur on the server and client simultaneously. */
 public class FabricModAnvilEvents {
 
     public static final Event<AnvilCreateResultEvent> CREATE_RESULT = EventFactory.createArrayBacked(AnvilCreateResultEvent.class, events -> (anvilMenu, leftStack, rightStack, output, itemName, baseCost, player) -> {
@@ -30,14 +25,11 @@ public class FabricModAnvilEvents {
         return null;
     });
 
+    /** Similar to Forge's AnvilRepairEvent, but does not modify the break chance applied to the anvil due to restrictions around injecting into/redirecting calls/modifying constants into synthetic static methods created via lambda expressions. */
     public static final Event<AnvilOnTakeEvent> ON_TAKE = EventFactory.createArrayBacked(AnvilOnTakeEvent.class, events -> (anvilMenu, player, output, left, right) -> {
-
         for (AnvilOnTakeEvent event : events) {
-            var result = event.onTake(anvilMenu, player, output, left, right);
-            if (result.isPresent()) return result; // return original vanilla value by default
+            event.onTake(anvilMenu, player, output, left, right);
         }
-
-        return Optional.of(0.12f);
     });
 
     public static final Event<AnvilOnLandEvent> ON_LAND = EventFactory.createArrayBacked(AnvilOnLandEvent.class, events -> (anvilBlock, level, pos, state, replaceableState, fallingBlock) -> {
@@ -59,7 +51,7 @@ public class FabricModAnvilEvents {
 
     @FunctionalInterface
     public interface AnvilOnTakeEvent {
-        Optional<Float> onTake(AnvilMenu anvilMenu, Player player, ItemStack output, ItemStack left, ItemStack right);
+        void onTake(AnvilMenu anvilMenu, Player player, ItemStack output, ItemStack left, ItemStack right);
     }
 
     @FunctionalInterface

@@ -1,4 +1,4 @@
-package com.cursee.monolib.core.function.example;
+package com.cursee.monolib.core.function;
 
 /**
  * Example Usage:

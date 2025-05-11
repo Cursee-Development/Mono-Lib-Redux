@@ -1,7 +1,5 @@
 package com.cursee.monolib.core.function;
 
-import com.cursee.monolib.core.function.example.BiVoidFunction;
-
 import java.util.Map;
 
 @FunctionalInterface

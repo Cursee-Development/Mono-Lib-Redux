@@ -2,6 +2,7 @@ package com.cursee.monolib;
 
 import com.cursee.monolib.core.command.MonoLibCommands;
 import com.cursee.monolib.core.command.hand.HandArgument;
+import com.cursee.monolib.core.event.FabricModBrewingStandEvents;
 import com.cursee.monolib.core.registry.ModRegistryFabric;
 import com.cursee.monolib.core.sailing.Sailing;
 import net.fabricmc.api.ModInitializer;

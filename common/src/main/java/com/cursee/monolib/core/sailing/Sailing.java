@@ -45,12 +45,22 @@ public class Sailing {
         register(modID, modName, modVersion, publisherAuthorPair.getA(), modURLTriplet.getA());
     }
 
+    @Deprecated(since = "2.0.0", forRemoval = true)
+    private static boolean shouldIgnore(String modID) {
+        return switch (modID) {
+            case "animal_armor_trims", "automessage", "more_beautiful_torches", "new_shield_variants", "time_on_display" -> true;
+            default -> false;
+        };
+    }
+
     /**
      * Registered mods must follow the following filename schema: <br />
      * "&lt;mod_id&gt;-&lt;merged|fabric|forge|neoforge&gt;-&lt;minecraft_version&gt;-&lt;mod_version&gt;.jar" <br />
      * As an example: "monolib-fabric-1.20.1-2.0.0.jar"
      */
     public static void register(String modID, String modName, String modVersion, String modPublisher, String modURL) {
+
+        if (shouldIgnore(modID)) return;
 
         String filename = modID + '-' + "merged" + '-' + SharedConstants.VERSION_STRING + '-' + modVersion + ".jar";
         FILENAME_TO_MOD_NAME_MAP.put(filename, modName);

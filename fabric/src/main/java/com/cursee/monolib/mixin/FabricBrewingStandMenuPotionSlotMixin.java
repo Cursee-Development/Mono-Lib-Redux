@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(targets = "net.minecraft.world.inventory.BrewingStandMenu$PotionSlot")
 public class FabricBrewingStandMenuPotionSlotMixin {
 
-    @Inject(method = "onTake", at = @At(value = "INVOKE", target = "Lnet/minecraft/advancements/critereon/BrewedPotionTrigger;trigger(Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/world/item/alchemy/Potion;)V"))
+    @Inject(method = "onTake", at = @At(value = "INVOKE", target = "Lnet/minecraft/advancements/critereon/BrewedPotionTrigger;trigger(Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/core/Holder;)V"))
     private void monolib$onTakeINVOKE(Player player, ItemStack stack, CallbackInfo ci) {
         Slot instance = (Slot) (Object) this;
         FabricModBrewingStandEvents.PLAYER_BREWED_POTION.invoker().onPlayerBrewedPotion(instance, player, stack);

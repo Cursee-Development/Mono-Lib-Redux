@@ -47,4 +47,6 @@ public interface IPlatformHelper {
 
         return isDevelopmentEnvironment() ? "development" : "production";
     }
+
+    CharSequence replaceIntermediaryWithOfficial(String string);
 }

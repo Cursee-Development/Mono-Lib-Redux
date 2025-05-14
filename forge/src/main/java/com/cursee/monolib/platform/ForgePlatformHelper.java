@@ -38,4 +38,9 @@ public class ForgePlatformHelper implements IPlatformHelper {
 
         return FMLEnvironment.dist == Dist.CLIENT;
     }
+
+    @Override
+    public CharSequence replaceIntermediaryWithOfficial(String string) {
+        return string;
+    }
 }

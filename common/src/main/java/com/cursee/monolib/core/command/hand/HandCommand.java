@@ -3,6 +3,7 @@ package com.cursee.monolib.core.command.hand;
 import com.cursee.monolib.core.command.CommandHelper;
 import com.cursee.monolib.core.command.IEnumCommand;
 import com.cursee.monolib.core.serialization.codecs.map.MapCodecs;
+import com.cursee.monolib.platform.Services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -15,10 +16,12 @@ import com.mojang.serialization.JsonOps;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.RegistryOps;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -47,7 +50,9 @@ public enum HandCommand implements IEnumCommand {
     STACK_JSON(fromCodec(MapCodecs.ITEM_STACK.get(), (stack, level) -> stack)),
     SNBT((stack, level) -> {
         final StringJoiner joiner = new StringJoiner("\n");
-        stack.getComponents().forEach(typedDataComponent -> joiner.add(typedDataComponent.toString()));
+        stack.getComponents().forEach(typedDataComponent -> {
+            joiner.add(Services.PLATFORM.replaceIntermediaryWithOfficial(typedDataComponent.toString()));
+        });
         return Component.literal(joiner.toString());
     }),
     TAGS(((stack, level) -> {

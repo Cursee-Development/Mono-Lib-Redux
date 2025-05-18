@@ -1,6 +1,5 @@
 package com.cursee.monolib.core.command;
 
-import com.cursee.monolib.mixin.AccessorCommandContext;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -62,9 +61,5 @@ public class CommandHelper {
             }
         }
         return level;
-    }
-
-    public static <T> boolean hasArgument(String argument, CommandContext<T> context) {
-        return context instanceof AccessorCommandContext access && access.monolib$getArguments().containsKey(argument);
     }
 }

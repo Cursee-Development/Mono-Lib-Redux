@@ -4,10 +4,7 @@
   "package": "com.cursee.monolib.mixin",
   "refmap": "${mod_id}.refmap.json",
   "compatibilityLevel": "JAVA_18",
-  "mixins": [
-    "AccessorCommandContext",
-    "AccessorWeightedRandomList"
-  ],
+  "mixins": [],
   "client": [],
   "server": [],
   "injectors": {

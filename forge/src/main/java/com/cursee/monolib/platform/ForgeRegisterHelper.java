@@ -43,7 +43,10 @@ public class ForgeRegisterHelper implements IRegisterHelper {
     @Override
     public <BE extends BlockEntity, T extends BlockEntityType<BE>, R extends BlockEntityRenderer<BE>> void registerBlockEntityRenderer(T blockEntityType, Function<BlockEntityRendererProvider.Context, R> blockEntityRendererConstructor) {
         // BlockEntityRenderers.register(blockEntityType, blockEntityRendererConstructor::apply);
-        MonoLibForge.EVENT_BUS.addListener((Consumer<EntityRenderersEvent.RegisterRenderers>) event -> {
+//        MonoLibForge.EVENT_BUS.addListener((Consumer<EntityRenderersEvent.RegisterRenderers>) event -> {
+//            event.registerBlockEntityRenderer(blockEntityType, blockEntityRendererConstructor::apply);
+//        });
+        EntityRenderersEvent.RegisterRenderers.getBus(MonoLibForge.MOD_BUS_GROUP).addListener(event -> {
             event.registerBlockEntityRenderer(blockEntityType, blockEntityRendererConstructor::apply);
         });
     }

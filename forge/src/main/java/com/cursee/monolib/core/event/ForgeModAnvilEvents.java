@@ -15,11 +15,13 @@ public class ForgeModAnvilEvents {
     public static class Hooks {
 
         public static void onLand(AnvilBlock anvilBlock, Level level, BlockPos pos, BlockState blockState, BlockState replaceable, FallingBlockEntity fallingBlock) {
-            MonoLibForge.EVENT_BUS.post(new AnvilOnLandEvent(anvilBlock, level, pos, blockState, replaceable, fallingBlock));
+            // MonoLibForge.EVENT_BUS.post(new AnvilOnLandEvent(anvilBlock, level, pos, blockState, replaceable, fallingBlock));
+            MonoLibForge.ANVIL_ON_LAND_BUS.post(new AnvilOnLandEvent(anvilBlock, level, pos, blockState, replaceable, fallingBlock));
         }
 
         public static void onBrokenAfterFall(AnvilBlock anvilBlock, Level level, BlockPos pos, FallingBlockEntity fallingBlock) {
-            MonoLibForge.EVENT_BUS.post(new AnvilOnBrokenAfterFallEvent(anvilBlock, level, pos, level.getBlockState(pos), fallingBlock));
+            // MonoLibForge.EVENT_BUS.post(new AnvilOnBrokenAfterFallEvent(anvilBlock, level, pos, level.getBlockState(pos), fallingBlock));
+            MonoLibForge.ANVIL_ON_BROKEN_AFTER_FALL_BUS.post(new AnvilOnBrokenAfterFallEvent(anvilBlock, level, pos, level.getBlockState(pos), fallingBlock));
         }
     }
 
